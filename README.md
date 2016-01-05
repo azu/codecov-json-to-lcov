@@ -49,6 +49,9 @@ DA:5,0
 DA:6,0
 DA:7,1
 DA:8,1
+LF:8
+LH:4
+end_of_record
 
 SF:path/to/other.py
 DA:1,0
@@ -56,6 +59,8 @@ DA:2,1
 DA:3,1
 DA:4,1
 DA:5,0
+LF:5
+LH:2
 end_of_record
 ```
 
