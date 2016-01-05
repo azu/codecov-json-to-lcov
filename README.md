@@ -1,4 +1,4 @@
-# codecov-json-to-lcov
+# codecov-json-to-lcov [![Build Status](https://travis-ci.org/azu/codecov-json-to-lcov.svg?branch=master)](https://travis-ci.org/azu/codecov-json-to-lcov)
 
 Convert [Codecov JSON](https://gist.github.com/codecov-io/96e1addb96856a9034c2 "Codecov JSON") format to [lcov](http://ltp.sourceforge.net/coverage/lcov/geninfo.1.php) format. 
 
