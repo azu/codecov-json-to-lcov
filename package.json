@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/azu/codecov-json-to-lcov/issues"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "convert Codecov json format to lcov format.",
   "main": "lib/codecov-json-to-lcov.js",
   "files": [
