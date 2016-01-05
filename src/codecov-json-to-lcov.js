@@ -18,16 +18,28 @@ http://ltp.sourceforge.net/coverage/lcov/geninfo.1.php
  * - not contain `SF`
  * - not contain `end_of_record`
  */
+/**
+ *
+ * @param coverage
+ * @returns {{content: string, LF: Number, LH: number}}
+ */
 function toLcovContent(coverage) {
     // first always `null` that is ignored
     const coverageWithoutFirst = coverage.slice(1);
-    return coverageWithoutFirst.map((value, index) => {
+
+    // content
+    let MissedLineCount = 0;
+    const content = coverageWithoutFirst.map((value, index) => {
         const lineNumber = index + 1;
-        if (value == null) {
+        if (value == null) {// null or false , 0
+            MissedLineCount++;
             return `DA:${lineNumber},0`
         }
         if (typeof value === "number") {
             const intValue = Math.round(value);
+            if (intValue <= 0) {
+                MissedLineCount++;
+            }
             return `DA:${lineNumber},${intValue}`;
         }
         // other
@@ -35,6 +47,16 @@ function toLcovContent(coverage) {
             return `DA:${lineNumber},1`;
         }
     }).join("\n");
+    // summary
+    // LF:<number of instrumented lines> = total line numbers
+    // LH:<number of lines with a non-zero execution count> = non-error line numers
+    const LF = coverageWithoutFirst.length;
+    const LH = MissedLineCount;
+    return {
+        content,
+        LF,
+        LH
+    }
 }
 /**
  * Convert codecov json to lcov string
@@ -49,11 +71,13 @@ export default function toLcov(codecov) {
     const coverage = codecov["coverage"];
     Object.keys(coverage).forEach(filePath => {
         const coverageOfFile = coverage[filePath];
+        const contentResult = toLcovContent(coverageOfFile);
         output += "\n";
         output += "SF:" + filePath + "\n";
-        output += toLcovContent(coverageOfFile);
-        output += "\n";
+        output += contentResult.content + "\n";
+        output += "LF:" + contentResult.LF + "\n";
+        output += "LH:" + contentResult.LH + "\n";
+        output += "end_of_record\n";
     });
-    output = output.trim() + "\n"+ "end_of_record";
-    return output;
+    return output.trim();
 }
