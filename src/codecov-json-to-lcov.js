@@ -51,7 +51,7 @@ function toLcovContent(coverage) {
     // LF:<number of instrumented lines> = total line numbers
     // LH:<number of lines with a non-zero execution count> = non-error line numers
     const LF = coverageWithoutFirst.length;
-    const LH = MissedLineCount;
+    const LH = coverageWithoutFirst.length - MissedLineCount;
     return {
         content,
         LF,
